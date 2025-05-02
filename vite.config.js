@@ -4,13 +4,17 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/tests/setup.js'], // Changed from string to array
+  },
   server: {
     proxy: {
-      // Update proxy target to Platzi API
       '/api': {
-        target: 'https://api.escuelajs.co', // <-- Changed target API
+        target: 'https://api.escuelajs.co',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api/v1'), // Adjust rewrite to include /api/v1
+        rewrite: (path) => path.replace(/^\/api/, '/api/v1'),
       },
     }
   }
