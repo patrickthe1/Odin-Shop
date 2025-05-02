@@ -25,8 +25,16 @@ const cartLinkStyle = {
     color: 'black' // Or your preferred color
 }
 
-// Accept cartItemCount as a prop
-function Navbar({ cartItemCount }) {
+// Style for the clickable cart area
+const cartButtonStyle = {
+    cursor: 'pointer', // Indicate it's clickable
+    padding: '5px 10px',
+    border: '1px solid transparent', // Optional: add border on hover/focus
+    borderRadius: '4px'
+};
+
+// Accept cartItemCount and onCartClick props
+function Navbar({ cartItemCount, onCartClick }) {
   return (
     <nav style={navStyle}>
       <div> {/* Container for Logo/Brand (optional) and Links */}
@@ -41,13 +49,10 @@ function Navbar({ cartItemCount }) {
       </div>
 
       <div> {/* Container for Cart Info */}
-         {/* Display cart item count */}
-         {/* You might want to make this a Link later if you add a Cart page */}
-         <span style={cartLinkStyle}>
+         {/* Make the cart display a button or clickable span */}
+         <button onClick={onCartClick} style={cartButtonStyle} aria-label={`View Cart (${cartItemCount} items)`}>
              Cart ({cartItemCount})
-         </span>
-         {/* Placeholder for a checkout button/link if needed */}
-         {/* <button>Checkout</button> */}
+         </button>
       </div>
     </nav>
   );
