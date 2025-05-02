@@ -39,17 +39,21 @@ function App() {
     console.log("Cart updated:", cart); // Log cart state after update (for debugging)
   };
 
+   // Calculate total number of items in the cart
+   const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
 
- return (
+
+   return (
     <div>
-      <Navbar /> {/* Pass cart count later */}
+      {/* Pass the total item count to Navbar */}
+      <Navbar cartItemCount={totalCartItems} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* Pass handleAddToCart down to ShopPage */}
         <Route
           path="/shop"
           element={<ShopPage onAddToCart={handleAddToCart} />}
         />
+        {/* Add route for CartPage later if needed */}
       </Routes>
     </div>
   );
