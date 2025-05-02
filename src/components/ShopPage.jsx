@@ -1,8 +1,7 @@
 // filepath: c:\Users\mugis\OneDrive\Desktop\FUN PROJECTS\SHOPPING-CART\shopping-cart\src\components\ShopPage.jsx
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-
-const shopPageStyle = { /* ... styles ... */ };
+import styles from './ShopPage.module.css'; // Import CSS Module
 
 // Accept onAddToCart as a prop
 function ShopPage({ onAddToCart }) {
@@ -10,11 +9,11 @@ function ShopPage({ onAddToCart }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ... useEffect for fetching data remains the same ...
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://fakestoreapi.com/products');
+        // Update the fetch URL to use the proxy path
+        const response = await fetch('/api/products'); 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -33,13 +32,17 @@ function ShopPage({ onAddToCart }) {
   }, []);
 
 
-  if (loading) { /* ... loading state ... */ }
-  if (error) { /* ... error state ... */ }
+  if (loading) {
+    return <div className={styles.loading}>Loading products...</div>;
+  }
+  if (error) {
+    return <div className={styles.error}>Error fetching products: {error}</div>;
+  }
 
   return (
-    <div>
-      <h1>Shop Page</h1>
-      <div style={shopPageStyle}>
+    <div className={styles.shopPage}> {/* Use className */} 
+      <h1 className={styles.title}>Products</h1> {/* Use className */} 
+      <div className={styles.productList}> {/* Use className */} 
         {products.map(product => (
           <ProductCard
             key={product.id}

@@ -1,0 +1,71 @@
+/* filepath: c:\Users\mugis\OneDrive\Desktop\FUN PROJECTS\SHOPPING-CART\shopping-cart\src\index.css */
+
+/* Basic Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Apply Google Font */
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: #03dac6; /* Accent color for links */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit; /* Inherit font */
+  cursor: pointer;
+  border: none;
+  padding: 0.6em 1.2em;
+  border-radius: 4px;
+  background-color: #03dac6; /* Accent color */
+  color: #121212; /* Dark text on buttons */
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #018786; /* Darker accent on hover */
+}
+
+button:disabled {
+  background-color: #333333;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input[type="number"] {
+  font-family: inherit;
+  padding: 0.4em;
+  border: 1px solid #333333;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Basic layout container if needed */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

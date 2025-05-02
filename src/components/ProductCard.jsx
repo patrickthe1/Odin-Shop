@@ -1,99 +1,69 @@
-// filepath: c:\Users\mugis\OneDrive\Desktop\FUN PROJECTS\SHOPPING-CART\shopping-cart\src\components\ProductCard.jsx
 import React, { useState } from 'react';
-
-// ... styles ...
-const cardStyle = {
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '16px',
-    margin: '8px', // Reduced margin slightly
-    textAlign: 'center',
-    width: '220px', // Adjusted width
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    minHeight: '400px' // Adjusted height to accommodate controls
-};
-
-const imageStyle = {
-    maxHeight: '150px',
-    maxWidth: '100%',
-    objectFit: 'contain',
-    marginBottom: '10px'
-};
-
-const controlsStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '10px 0'
-};
-
-const inputStyle = {
-    width: '50px',
-    textAlign: 'center',
-    margin: '0 5px'
-};
-
-const buttonContainerStyle = {
-    marginTop: 'auto' // Pushes this container to the bottom
-}
+import styles from './ProductCard.module.css'; // Import CSS Module
 
 // Accept onAddToCart as a prop
 function ProductCard({ product, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
-  const { id, title, price, description, image } = product;
 
-  // ... handleQuantityChange, handleIncrement, handleDecrement remain the same ...
-    const handleQuantityChange = (event) => {
-        const value = parseInt(event.target.value, 10);
-        setQuantity(isNaN(value) || value < 1 ? 1 : value);
-    };
+  // Basic check if product data is missing
+  if (!product) {
+    return <div className={styles.card}>Product data is missing.</div>; // Basic error display
+  }
 
-    const handleIncrement = () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
-    };
+  // Destructure, using images array from Platzi API
+  const { id, title, price, description, images } = product; 
 
-    const handleDecrement = () => {
-        setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-    };
+  // Use the first image from the images array, provide a fallback if empty/undefined
+  const imageUrl = images && images.length > 0 ? images[0] : ''; // Default to empty string if no image
 
-
-  // Updated function to call the prop
-  const handleAddToCartClick = () => {
-    // Call the function passed from App.jsx via ShopPage
-    onAddToCart(product, quantity);
-    console.log(`Attempting to add ${quantity} of ${title} (ID: ${id}) to cart.`);
-    // Optional: Reset quantity after adding? Or leave it as is?
-    // setQuantity(1); // Uncomment to reset quantity after adding
+  const handleQuantityChange = (event) => {
+    const value = parseInt(event.target.value, 10);
+    setQuantity(isNaN(value) || value < 1 ? 1 : value);
   };
 
-  if (!product) { /* ... missing product check ... */ }
+  const handleIncrement = () => {
+    setQuantity(prevQuantity => prevQuantity + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
+  const handleAddToCartClick = () => {
+    // Pass the product data along, ensuring the cart uses the same image logic if needed
+    // Currently, App.jsx likely just uses the passed product object
+    onAddToCart(product, quantity); 
+    // Optional: Reset quantity after adding?
+    // setQuantity(1);
+  };
 
   return (
-    <div style={cardStyle}>
-       <div> {/* Top section */}
-            <img src={image} alt={title} style={imageStyle} />
-            <h3>{title}</h3>
-            <p>${price.toFixed(2)}</p>
+    <div className={styles.card}> {/* Use className */} 
+      <div> {/* Top section */} 
+        <div className={styles.imageContainer}> {/* Use className */} 
+          {/* Use the derived imageUrl */}
+          <img src={imageUrl} alt={title} className={styles.image} /> {/* Use className */} 
         </div>
-         <div style={buttonContainerStyle}> {/* Bottom section */}
-             {/* Quantity Controls */}
-            <div style={controlsStyle}>
-               {/* ... buttons and input ... */}
-                <button onClick={handleDecrement}>-</button>
-                <input
-                    type="number"
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                    style={inputStyle}
-                    min="1"
-                />
-                <button onClick={handleIncrement}>+</button>
-            </div>
-             {/* Add to Cart Button - uses the updated handler */}
-            <button onClick={handleAddToCartClick}>Add to Cart</button>
+        <h3 className={styles.title}>{title}</h3> {/* Use className */} 
+        <p className={styles.price}>${price ? price.toFixed(2) : 'N/A'}</p> {/* Use className, add price check */} 
+      </div>
+      <div className={styles.buttonContainer}> {/* Use className */} 
+        {/* Quantity Controls */}
+        <div className={styles.controls}> {/* Use className */} 
+          <button onClick={handleDecrement} className={styles.quantityButton}>-</button> {/* Use className */} 
+          <input
+            type="number"
+            value={quantity}
+            onChange={handleQuantityChange}
+            className={styles.quantityInput}  
+            min="1"
+            aria-label={`Quantity for ${title}`}
+          />
+          <button onClick={handleIncrement} className={styles.quantityButton}>+</button> {/* Use className */} 
         </div>
+        {/* Add to Cart Button */}
+        <button onClick={handleAddToCartClick} className={styles.addToCartButton}>Add to Cart</button> {/* Use className */} 
+      </div>
     </div>
   );
 }
