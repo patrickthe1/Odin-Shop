@@ -1,4 +1,12 @@
 import React, {useState,useEffect} from 'react';
+import ProductCard from './ProductCard';
+
+const shopPageStyle = {
+    display: 'flex',
+    flexWrap: 'wrap', // Allow items to wrap to the next line
+    justifyContent: 'center', // Center items horizontally
+    gap: '16px' // Add space between cards
+  };
 
 function ShopPage() {
  const [products,setProducts] = useState([]);
@@ -36,11 +44,13 @@ function ShopPage() {
  return (
     <div>
       <h1>Shop Page</h1>
-      <ul>
+      {/* Apply grid styling to the container */}
+      <div style={shopPageStyle}>
+        {/* Map over products and render a ProductCard for each */}
         {products.map(product => (
-          <li key={product.id}>{product.title}</li>
+          <ProductCard key={product.id} product={product} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 
