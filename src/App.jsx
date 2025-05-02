@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Routes, Route } from 'react-router-dom'; 
 import HomePage from './components/Homepage'; // Import HomePage
 import ShopPage from './components/ShopPage'; // Import ShopPag
@@ -6,16 +6,53 @@ import Navbar from './components/Navbar';
 
 
 function App() {
- return(
-  <div>
-    <Navbar/>
-    <h1>My shopping App</h1>
-    <Routes>
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='/shop' element={<ShopPage/>}></Route>
-    </Routes>
-  </div>
- )
+    const [cart, setCart] = useState([]);
+
+      // Function to add an item to the cart
+  const handleAddToCart = (product, quantity) => {
+    setCart(prevCart => {
+      // Check if the item is already in the cart
+      const existingItemIndex = prevCart.findIndex(item => item.id === product.id);
+
+      if (existingItemIndex > -1) {
+        // Item exists, update quantity
+        const updatedCart = [...prevCart]; // Create a copy of the cart
+        // Update the quantity of the existing item
+        updatedCart[existingItemIndex] = {
+          ...updatedCart[existingItemIndex],
+          quantity: updatedCart[existingItemIndex].quantity + quantity,
+        };
+        return updatedCart; // Return the updated cart
+      } else {
+        // Item does not exist, add it as a new item
+        const newItem = {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image, // Include image for potential cart display later
+          quantity: quantity,
+        };
+        // Return a new cart array with the new item added
+        return [...prevCart, newItem];
+      }
+    });
+    console.log("Cart updated:", cart); // Log cart state after update (for debugging)
+  };
+
+
+ return (
+    <div>
+      <Navbar /> {/* Pass cart count later */}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* Pass handleAddToCart down to ShopPage */}
+        <Route
+          path="/shop"
+          element={<ShopPage onAddToCart={handleAddToCart} />}
+        />
+      </Routes>
+    </div>
+  );
 
 }
 
