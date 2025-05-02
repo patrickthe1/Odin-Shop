@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HomePage from './components/Homepage';
+import HomePage from './components/HomePage';
 import ShopPage from './components/ShopPage';
 import Navbar from './components/Navbar';
 import CartModal from './components/CartModal'; // Import CartModal (will create next)
