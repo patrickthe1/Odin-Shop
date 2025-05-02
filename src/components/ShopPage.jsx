@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import styles from './ShopPage.module.css'; // Import CSS Module
+import { getApiUrl } from '../utils/api';
 
 // Accept onAddToCart as a prop
 function ShopPage({ onAddToCart }) {
@@ -12,8 +13,9 @@ function ShopPage({ onAddToCart }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Update the fetch URL to use the proxy path
-        const response = await fetch('/api/products'); 
+        // Use the API utility to get the correct base URL
+        const apiUrl = getApiUrl();
+        const response = await fetch(`${apiUrl}/products`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
