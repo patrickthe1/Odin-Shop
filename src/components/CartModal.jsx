@@ -1,39 +1,43 @@
 import React from 'react';
 import styles from './CartModal.module.css'; // Import CSS Module
+import { useCart } from './CartContext'; // Import our custom hook
 
-function CartModal({ isOpen, onClose, cartItems }) {
+function CartModal() {
+    // Get what we need from context instead of props
+    const { cart, isCartModalOpen, closeCartModal } = useCart();
+    
     // If the modal is not open, render nothing
-    if (!isOpen) {
+    if (!isCartModalOpen) {
         return null;
     }
 
     // Calculate total price
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
     return (
         // The Modal Overlay
-        <div className={styles.modalOverlay} onClick={onClose}> {/* Use className */} 
+        <div className={styles.modalOverlay} onClick={closeCartModal}> {/* Use closeCartModal from context */}
             {/* The Modal Content Box */}
             {/* Stop propagation prevents closing modal when clicking inside content */}
-            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}> {/* Use className */} 
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 {/* Close Button */}
-                <button className={styles.closeButton} onClick={onClose} aria-label="Close cart modal">&times;</button> {/* Use className */} 
+                <button className={styles.closeButton} onClick={closeCartModal} aria-label="Close cart modal">&times;</button>
 
-                <h2 className={styles.title}>Your Cart</h2> {/* Use className */} 
+                <h2 className={styles.title}>Your Cart</h2>
 
                 {/* Cart Items List */}
-                {cartItems.length === 0 ? (
-                    <p className={styles.emptyCartMessage}>Your cart is empty.</p> /* Use className */
+                {cart.length === 0 ? (
+                    <p className={styles.emptyCartMessage}>Your cart is empty.</p>
                 ) : (
                     <div>
-                        {cartItems.map(item => {
+                        {cart.map(item => {
                             // Get the first image URL, provide fallback
                             const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '';
                             return (
-                                <div key={item.id} className={styles.cartItem}> {/* Use className */} 
+                                <div key={item.id} className={styles.cartItem}>
                                     {/* Use the derived imageUrl */}
-                                    <img src={imageUrl} alt={item.title} className={styles.itemImage} /> {/* Use className */} 
-                                    <div className={styles.itemDetails}> {/* Use className */} 
+                                    <img src={imageUrl} alt={item.title} className={styles.itemImage} />
+                                    <div className={styles.itemDetails}>
                                         <strong>{item.title}</strong>
                                         <p>Quantity: {item.quantity}</p>
                                         <p>Price: ${item.price.toFixed(2)}</p>
@@ -43,13 +47,13 @@ function CartModal({ isOpen, onClose, cartItems }) {
                             );
                         })}
                         {/* Total Price */}
-                        <h3 className={styles.totalPrice}>Total: ${totalPrice.toFixed(2)}</h3> {/* Use className */} 
+                        <h3 className={styles.totalPrice}>Total: ${totalPrice.toFixed(2)}</h3>
                     </div>
                 )}
 
                 {/* Placeholder Checkout Button */}
-                <button className={styles.checkoutButton} disabled={cartItems.length === 0}>Proceed to Checkout</button> {/* Use className */} 
-                <p className={styles.checkoutInfo}>(Checkout functionality not implemented)</p> {/* Use className */} 
+                <button className={styles.checkoutButton} disabled={cart.length === 0}>Proceed to Checkout</button>
+                <p className={styles.checkoutInfo}>(Checkout functionality not implemented)</p>
             </div>
         </div>
     );

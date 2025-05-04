@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styles from './ProductCard.module.css'; // Import CSS Module
+import { useCart } from './CartContext';
 
-// Accept onAddToCart as a prop
-function ProductCard({ product, onAddToCart }) {
+function ProductCard({ product}) {
   const [quantity, setQuantity] = useState(1);
 
-  // Basic check if product data is missing
+  // Get addToCart function from context instead of props
+  const { addToCart } = useCart();
+
   if (!product) {
     return <div className={styles.card}>Product data is missing.</div>; // Basic error display
   }
@@ -32,7 +34,7 @@ function ProductCard({ product, onAddToCart }) {
   const handleAddToCartClick = () => {
     // Pass the product data along, ensuring the cart uses the same image logic if needed
     // Currently, App.jsx likely just uses the passed product object
-    onAddToCart(product, quantity); 
+    addToCart(product, quantity); 
     // Optional: Reset quantity after adding?
     // setQuantity(1);
   };

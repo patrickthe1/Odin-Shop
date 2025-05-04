@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import styles from './ShopPage.module.css'; // Import CSS Module
 import { getApiUrl } from '../utils/api';
+// No need to accept onAddToCart as a prop anymore
 
-// Accept onAddToCart as a prop
-function ShopPage({ onAddToCart }) {
+function ShopPage() {
+  // Add state declarations that were missing
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,7 +34,6 @@ function ShopPage({ onAddToCart }) {
     fetchProducts();
   }, []);
 
-
   if (loading) {
     return <div className={styles.loading}>Loading products...</div>;
   }
@@ -42,15 +42,14 @@ function ShopPage({ onAddToCart }) {
   }
 
   return (
-    <div className={styles.shopPage}> {/* Use className */} 
-      <h1 className={styles.title}>Products</h1> {/* Use className */} 
-      <div className={styles.productList}> {/* Use className */} 
+    <div className={styles.shopPage}>
+      <h1 className={styles.title}>Products</h1>
+      <div className={styles.productList}>
         {products.map(product => (
           <ProductCard
             key={product.id}
             product={product}
-            // Pass onAddToCart down to each ProductCard
-            onAddToCart={onAddToCart}
+            // No need to pass onAddToCart anymore
           />
         ))}
       </div>

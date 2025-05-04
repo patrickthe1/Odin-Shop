@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css'; // Import CSS Module
+import { useCart } from './CartContext';
 
-// Accept cartItemCount and onCartClick props
-function Navbar({ cartItemCount, onCartClick }) {
+
+function Navbar() {
+  //Get what we need from context instead of props
+  const {totalCartItems, openCartModal} = useCart();
   return (
     <nav className={styles.navbar}> {/* Use className from styles */} 
       {/* Brand Name */}
@@ -27,14 +30,14 @@ function Navbar({ cartItemCount, onCartClick }) {
       {/* Cart Button */}
       <div>
          <button 
-           onClick={onCartClick} 
+           onClick={openCartModal} 
            className={styles.cartButton} // Use className
-           aria-label={`View Cart (${cartItemCount} items)`}
+           aria-label={`View Cart (${totalCartItems} items)`}
          >
              Cart 
              {/* Display count only if > 0 */} 
-             {cartItemCount > 0 && (
-               <span className={styles.cartCount}>{cartItemCount}</span>
+             {totalCartItems > 0 && (
+               <span className={styles.cartCount}>{totalCartItems}</span>
              )}
          </button>
       </div>
